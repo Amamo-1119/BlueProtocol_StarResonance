@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Star Resonance 取引所利益計算機</title>
+<style>
+body { font-family: sans-serif; padding:20px; }
+input { width:120px; }
+table { border-collapse: collapse; }
+th, td { border:1px solid #ccc; padding:6px; text-align:right; }
+th { background:#eee; }
+</style>
+</head>
+<body>
+<h2>Blueprotocol starresonance <br>
+取引所利益計算機</br>
+</h2>
+
+<p>購入価格は、フォーカスアイテムの合計値のみです。<br>
+フォーカスコストは、【10 / 20 / 25 】のいずれかになります。<br>
+売価は、実際に売れるアイテムの中で最も高い価格か、在庫が余っている値段に設定してください。</p>
+
+<table>
+<tr>
+<th><center>購入価格</center></th>
+<th><center>フォーカスコスト</center></th>
+<th><center>売価</center></th>
+<th><center>利益</center></th>
+<th><center>ROI%</center></th>
+<th><center>フォーカス利益</center></th>
+</tr>
+<tr>
+<td><input id="buy" type="number" value="0"></td>
+<td><input id="focus" type="number" value="0"></td>
+<td><input id="sell" type="number" value="0"></td>
+<td id="profit">0</td>
+<td id="roi">-</td>
+<td id="focusProfit">0</td>
+</tr>
+</table>
+
+<script>
+function calc() {
+  const buy = Number(document.getElementById("buy").value);
+  const focus = Number(document.getElementById("focus").value);
+  const sell = Number(document.getElementById("sell").value);
+
+  const profit = sell * 0.95 - (buy + focus);
+  document.getElementById("profit").innerText = profit.toFixed(2);
+
+  if (buy === 0) {
+    document.getElementById("roi").innerText = "-";
+  } else {
+    const roi = profit / (buy + focus) * 100;
+    document.getElementById("roi").innerText = roi.toFixed(2) + "%";
+  }
+
+  const fp = focus > 0 ? profit / focus : 0;
+  document.getElementById("focusProfit").innerText = fp.toFixed(2);
+}
+
+document.querySelectorAll("input").forEach(el => el.addEventListener("input", calc));
+</script>
+
+</body>
+</html>
